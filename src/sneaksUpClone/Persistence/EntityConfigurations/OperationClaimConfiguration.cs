@@ -6,6 +6,8 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NArchitecture.Core.Security.Constants;
+using Application.Features.Baskets.Constants;
+using Application.Features.Products.Constants;
 
 namespace Persistence.EntityConfigurations;
 
@@ -97,6 +99,34 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         );
         #endregion
 
+        
+        #region Baskets
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Read },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Write },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Create },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Update },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region Products
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Read },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Write },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Create },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Update },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed
