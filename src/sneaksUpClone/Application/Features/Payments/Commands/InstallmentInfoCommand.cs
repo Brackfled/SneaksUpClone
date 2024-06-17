@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace Application.Features.Payments.Commands;
 public class InstallmentInfoCommand : IRequest<InstallmentInfo>
 {
-    public RetrieveInstallmentInfoRequest RetrieveInstallmentInfoRequest { get; set; }
+    public string BinNo { get; set; }
+    public double Price { get; set; }
 
     public class InstallmentInfoCommandHandler : IRequestHandler<InstallmentInfoCommand, InstallmentInfo>
     {
@@ -24,7 +25,15 @@ public class InstallmentInfoCommand : IRequest<InstallmentInfo>
 
         public async Task<InstallmentInfo> Handle(InstallmentInfoCommand request, CancellationToken cancellationToken)
         {
-            InstallmentInfo response = await _paymentService.GetInstallmentInfo(request.RetrieveInstallmentInfoRequest);
+            RetrieveInstallmentInfoRequest retrieveInstallmentInfoRequest = new() 
+            {
+                Locale = "tr",
+                ConversationId = Guid.NewGuid().ToString(),
+                Price = request.Price.ToString(),
+                BinNumber = request.BinNo
+            };
+
+            InstallmentInfo response = await _paymentService.GetInstallmentInfo(retrieveInstallmentInfoRequest);
 
             return response;
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Application.Features.Payments.Commands.BinCheck;
 public class BinCheckCommand: IRequest<BinCheckResponse>
 {
-    public RetrieveBinNumberRequest RetrieveBinNumberRequest { get; set; }
+    public string BinNo { get; set; }
 
     public class BinCheckCommandHandler : IRequestHandler<BinCheckCommand, BinCheckResponse>
     {
@@ -27,7 +27,13 @@ public class BinCheckCommand: IRequest<BinCheckResponse>
 
         public async Task<BinCheckResponse> Handle(BinCheckCommand request, CancellationToken cancellationToken)
         {
-            BinNumber binNumber = await _paymentService.GetBinCheck(request.RetrieveBinNumberRequest);
+            RetrieveBinNumberRequest retrieveBinNumberRequest = new()
+            {
+                Locale = "tr",
+                BinNumber = request.BinNo,
+                ConversationId = Guid.NewGuid().ToString(),
+            };
+            BinNumber binNumber = await _paymentService.GetBinCheck(retrieveBinNumberRequest);
 
             BinCheckResponse response = _mapper.Map<BinCheckResponse>(binNumber);
             return response;

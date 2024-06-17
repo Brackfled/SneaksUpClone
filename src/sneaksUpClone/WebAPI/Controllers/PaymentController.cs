@@ -40,17 +40,16 @@ public class PaymentController : BaseController
     }
 
     [HttpPost("BinCheck")]
-    public async Task<IActionResult> BinCheck([FromBody] RetrieveBinNumberRequest retrieveBinNumberRequest)
+    public async Task<IActionResult> BinCheck([FromBody] string binNo)
     {
-        BinCheckCommand command = new BinCheckCommand { RetrieveBinNumberRequest = retrieveBinNumberRequest };
+        BinCheckCommand command = new BinCheckCommand { BinNo = binNo };
         BinCheckResponse response = await Mediator.Send(command);
         return Ok(response);
     }
 
     [HttpPost("InstallmentInfo")]
-    public async Task<IActionResult> GetInstallmentInfo([FromBody] RetrieveInstallmentInfoRequest retrieveInstallmentInfoRequest)
+    public async Task<IActionResult> GetInstallmentInfo([FromBody] InstallmentInfoCommand command)
     {
-       InstallmentInfoCommand command = new InstallmentInfoCommand { RetrieveInstallmentInfoRequest = retrieveInstallmentInfoRequest };
        InstallmentInfo response = await Mediator.Send(command);
         return Ok(response);
     }
