@@ -21,6 +21,8 @@ using NArchitecture.Core.Mailing.MailKit;
 using NArchitecture.Core.Security.DependencyInjection;
 using Application.Services.Baskets;
 using Application.Services.Products;
+using Application.Services.Addresses;
+using Application.Services.BasketItems;
 
 namespace Application;
 
@@ -63,6 +65,8 @@ public static class ApplicationServiceRegistration
 
         services.AddScoped<IBasketService, BasketManager>();
         services.AddScoped<IProductService, ProductManager>();
+        services.AddScoped<IAddressService, AddressManager>();
+        services.AddScoped<IBasketItemService, BasketItemManager>();
         return services;
     }
 

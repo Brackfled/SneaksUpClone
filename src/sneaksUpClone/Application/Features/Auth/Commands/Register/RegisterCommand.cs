@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auth.Rules;
 using Application.Services.AuthService;
+using Application.Services.Baskets;
 using Application.Services.Repositories;
 using Domain.Entities;
 using MediatR;
@@ -11,18 +12,18 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredResponse>
 {
-    public UserForRegisterDto UserForRegisterDto { get; set; }
+    public RegisterDto RegisterDto { get; set; }
     public string IpAddress { get; set; }
 
     public RegisterCommand()
     {
-        UserForRegisterDto = null!;
+        RegisterDto = null!;
         IpAddress = string.Empty;
     }
 
-    public RegisterCommand(UserForRegisterDto userForRegisterDto, string ipAddress)
+    public RegisterCommand(RegisterDto registerDto, string ipAddress)
     {
-        UserForRegisterDto = userForRegisterDto;
+        RegisterDto = registerDto;
         IpAddress = ipAddress;
     }
 
@@ -30,32 +31,37 @@ public class RegisterCommand : IRequest<RegisteredResponse>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
+        private readonly IBasketService _basketService;
         private readonly AuthBusinessRules _authBusinessRules;
 
         public RegisterCommandHandler(
             IUserRepository userRepository,
             IAuthService authService,
-            AuthBusinessRules authBusinessRules
+            AuthBusinessRules authBusinessRules,
+            IBasketService basketService
         )
         {
             _userRepository = userRepository;
             _authService = authService;
             _authBusinessRules = authBusinessRules;
+            _basketService = basketService;
         }
 
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
+            await _authBusinessRules.UserEmailShouldBeNotExists(request.RegisterDto .Email);
 
             HashingHelper.CreatePasswordHash(
-                request.UserForRegisterDto.Password,
+                request.RegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
             User newUser =
                 new()
                 {
-                    Email = request.UserForRegisterDto.Email,
+                    FirstName = request.RegisterDto.FirstName,
+                    LastName = request.RegisterDto.LastName,
+                    Email = request.RegisterDto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                 };
@@ -68,6 +74,15 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                 request.IpAddress
             );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+            Basket basket = new()
+            {
+                Id = Guid.NewGuid(),
+                UserId = createdUser.Id,
+                TotalPrice = 0.0
+            };
+
+            Basket createdBasket = await _basketService.AddAsync(basket);
 
             RegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
             return registeredResponse;

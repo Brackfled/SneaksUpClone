@@ -19,6 +19,7 @@ public class BasketConfiguration : IEntityTypeConfiguration<Basket>
 
 
         builder.HasMany(b => b.Products);
+        builder.HasMany(b => b.BasketItems);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

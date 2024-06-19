@@ -13,6 +13,7 @@ public class Product: Entity<Guid>
     public double Price { get; set; }
 
 
+
     public Product()
     {
         Name = string.Empty;

@@ -31,10 +31,10 @@ public class PaymentController : BaseController
         _paymentService = paymentService;
     }
 
-    [HttpGet("ThreeDSInitialize")]
-    public async Task<IActionResult> PayWithThreeDSInitialize()
+    [HttpPost("ThreeDSInitialize")]
+    public async Task<IActionResult> PayWithThreeDSInitialize([FromBody] ThreeDSPaymentDto threeDSPaymentDto)
     {
-        ThreeDSInitializeCommand command = new ThreeDSInitializeCommand();
+        ThreeDSInitializeCommand command = new() { ThreeDSPaymentDto = threeDSPaymentDto , UserId = getUserIdFromRequest(), UserIp = getIpAddress()};
         ThreeDSInitializeResponse response = await Mediator.Send(command);
         return Ok(response);
     }

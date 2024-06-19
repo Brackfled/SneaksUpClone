@@ -12,6 +12,6 @@ public class Basket: Entity<Guid>
     public double TotalPrice { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = default!;
-
+    public virtual ICollection<BasketItem> BasketItems { get; set; } = default!;
  
 }

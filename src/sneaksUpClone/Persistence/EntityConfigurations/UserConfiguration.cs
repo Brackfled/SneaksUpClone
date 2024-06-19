@@ -29,6 +29,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.EmailAuthenticators);
         builder.HasMany(u => u.OtpAuthenticators);
         builder.HasMany(u => u.Baskets);
+        builder.HasMany(u => u.Addresses);
 
         builder.HasData(_seeds);
 

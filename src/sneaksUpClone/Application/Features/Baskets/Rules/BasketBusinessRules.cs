@@ -39,4 +39,12 @@ public class BasketBusinessRules : BaseBusinessRules
         );
         await BasketShouldExistWhenSelected(basket);
     }
+
+    public async Task TotalPriceMustBeGreaterThenZero(Basket basket)
+    {
+        if(basket.TotalPrice == 0.00)
+        {
+            await throwBusinessException(BasketsBusinessMessages.TotalPriceMustBeGreaterThanZero);
+        }
+    }
 }

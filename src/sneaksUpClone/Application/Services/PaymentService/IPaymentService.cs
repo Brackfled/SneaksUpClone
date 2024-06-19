@@ -13,5 +13,5 @@ public  interface IPaymentService
 {
     Task<BinNumber> GetBinCheck(RetrieveBinNumberRequest retrieveBinNumberRequest);
     Task<InstallmentInfo> GetInstallmentInfo(RetrieveInstallmentInfoRequest retrieveInstallmentInfoRequest);
-    Task<ThreeDSInitializeResponse> ThreeDSPaymentInitialize(CreateThreedsPaymentRequest createThreedsPaymentRequest);
+    Task<ThreeDSInitializeResponse> ThreeDSPaymentInitialize(CreatePaymentRequest createPaymentRequest);
 }

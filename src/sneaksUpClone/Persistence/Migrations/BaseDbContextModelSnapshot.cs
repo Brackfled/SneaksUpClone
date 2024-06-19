@@ -22,6 +22,61 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("AddressName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("AddressName");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("City");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ContactName");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Country");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ZipCode");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Addresses", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Basket", b =>
                 {
                     b.Property<Guid>("Id")
@@ -54,6 +109,42 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Baskets", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("BasketId");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductId");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketItems", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
@@ -334,6 +425,78 @@ namespace Persistence.Migrations
                             Id = 35,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Products.Delete"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Admin"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Read"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Write"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Create"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Update"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Addresses.Delete"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Admin"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Read"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Write"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Create"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Update"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Delete"
                         });
                 });
 
@@ -535,14 +698,14 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4c702624-b278-43bb-80ae-fcc2ca48b886"),
+                            Id = new Guid("62fe3ea9-628e-422a-97b8-709fbb328706"),
                             AuthenticatorType = 0,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "oncellhsyn@outlook.com",
                             FirstName = "",
                             LastName = "",
-                            PasswordHash = new byte[] { 68, 176, 88, 252, 35, 59, 125, 221, 211, 178, 100, 129, 76, 8, 160, 215, 96, 231, 62, 137, 173, 83, 177, 100, 249, 178, 183, 132, 141, 23, 58, 87, 23, 52, 123, 217, 58, 110, 18, 26, 29, 106, 222, 122, 30, 106, 180, 198, 27, 52, 15, 225, 109, 185, 145, 150, 195, 27, 59, 23, 97, 48, 168, 120 },
-                            PasswordSalt = new byte[] { 191, 49, 128, 183, 37, 226, 184, 167, 48, 231, 55, 51, 183, 111, 184, 185, 222, 56, 68, 252, 41, 93, 225, 149, 164, 53, 135, 182, 221, 82, 107, 116, 155, 243, 207, 102, 176, 218, 191, 110, 20, 57, 66, 140, 17, 195, 195, 102, 130, 1, 157, 143, 105, 147, 248, 7, 191, 142, 31, 210, 238, 237, 163, 208, 70, 164, 43, 203, 151, 185, 71, 18, 119, 62, 34, 138, 59, 83, 226, 152, 22, 211, 25, 117, 68, 117, 30, 200, 151, 31, 202, 235, 38, 23, 88, 115, 3, 110, 48, 42, 20, 223, 8, 9, 133, 234, 100, 157, 202, 75, 190, 196, 21, 169, 206, 183, 181, 150, 206, 233, 90, 223, 197, 214, 239, 37, 222, 198 }
+                            PasswordHash = new byte[] { 42, 135, 25, 95, 42, 173, 189, 172, 80, 175, 58, 196, 0, 113, 4, 84, 186, 196, 88, 49, 159, 158, 199, 34, 145, 169, 96, 57, 232, 131, 151, 70, 80, 49, 162, 15, 234, 80, 196, 179, 180, 32, 84, 108, 138, 131, 164, 97, 80, 155, 17, 122, 157, 54, 197, 187, 35, 78, 3, 8, 157, 225, 11, 40 },
+                            PasswordSalt = new byte[] { 187, 180, 29, 220, 50, 101, 183, 84, 193, 146, 117, 6, 231, 104, 127, 238, 125, 139, 65, 162, 214, 224, 200, 106, 163, 138, 152, 180, 73, 16, 55, 116, 209, 87, 250, 59, 112, 119, 227, 252, 141, 255, 2, 137, 96, 172, 203, 31, 126, 204, 161, 184, 138, 76, 2, 16, 150, 196, 223, 194, 13, 34, 55, 88, 240, 240, 165, 246, 199, 254, 224, 209, 129, 105, 222, 172, 206, 123, 26, 131, 23, 68, 121, 174, 161, 192, 214, 112, 176, 55, 128, 11, 6, 50, 103, 127, 103, 208, 100, 185, 221, 164, 165, 212, 118, 237, 155, 199, 36, 37, 107, 20, 153, 177, 184, 41, 223, 78, 52, 229, 80, 200, 195, 229, 191, 151, 138, 250 }
                         });
                 });
 
@@ -584,11 +747,22 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("405a7284-856e-4438-8d8d-9be4c105b7d8"),
+                            Id = new Guid("abf4d911-ace8-4434-ac3d-67e5c89f73e1"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OperationClaimId = 1,
-                            UserId = new Guid("4c702624-b278-43bb-80ae-fcc2ca48b886")
+                            UserId = new Guid("62fe3ea9-628e-422a-97b8-709fbb328706")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Basket", b =>
@@ -598,6 +772,25 @@ namespace Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.HasOne("Domain.Entities.Basket", "Basket")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
@@ -661,11 +854,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Basket", b =>
                 {
+                    b.Navigation("BasketItems");
+
                     b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Baskets");
 
                     b.Navigation("EmailAuthenticators");

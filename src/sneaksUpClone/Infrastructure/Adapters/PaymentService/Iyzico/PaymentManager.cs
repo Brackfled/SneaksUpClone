@@ -45,11 +45,11 @@ public class PaymentManager : IPaymentService
         return binNumber;
     }
 
-    public async Task<ThreeDSInitializeResponse> ThreeDSPaymentInitialize(CreateThreedsPaymentRequest createThreedsPaymentRequest)
+    public async Task<ThreeDSInitializeResponse> ThreeDSPaymentInitialize(CreatePaymentRequest createPaymentRequest)
     {
 
 
-        string hashedString = HashGenerator.GenerateHash(options.ApiKey, options.SecretKey, text, createThreedsPaymentRequest);
+        string hashedString = HashGenerator.GenerateHash(options.ApiKey, options.SecretKey, text, createPaymentRequest);
         string authorizationString = $"IYZWS {options.ApiKey}:{hashedString}";
 
         Dictionary<string, string> headers = new Dictionary<string, string>
@@ -64,7 +64,7 @@ public class PaymentManager : IPaymentService
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri(options.BaseUrl + "/payment/3dsecure/initialize"),
-            Content = JsonBuilder.ToJsonString(createThreedsPaymentRequest)
+            Content = JsonBuilder.ToJsonString(createPaymentRequest)
         };
 
         foreach (KeyValuePair<string, string> header in headers)

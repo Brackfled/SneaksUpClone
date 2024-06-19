@@ -14,6 +14,8 @@ public class ThreeDSInitializeResponse
     public string PaymentId { get; set; }
     public string Checksum { get; set; }
     public long SystemTime { get; set; }
+    public string ErrorCode { get; set; }
+    public string ErrorMessage { get; set; }
 
     public ThreeDSInitializeResponse()
     {
@@ -23,9 +25,11 @@ public class ThreeDSInitializeResponse
         ThreeDSHtmlContent = string.Empty;
         PaymentId = string.Empty;
         Checksum = string.Empty;
+        ErrorCode = string.Empty;
+        ErrorMessage = string.Empty;
     }
 
-    public ThreeDSInitializeResponse(string status, string locale, string conversationId, string threeDSHtmlContent, string paymentId, string checksum, long systemTime)
+    public ThreeDSInitializeResponse(string errorCode, string errorMessage, string status, string locale, string conversationId, string threeDSHtmlContent, string paymentId, string checksum, long systemTime)
     {
         Status = status;
         Locale = locale;
@@ -34,5 +38,7 @@ public class ThreeDSInitializeResponse
         PaymentId = paymentId;
         Checksum = checksum;
         SystemTime = systemTime;
+        ErrorCode = errorCode;
+        ErrorMessage = errorMessage;
     }
 }
