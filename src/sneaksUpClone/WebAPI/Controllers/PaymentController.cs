@@ -16,6 +16,7 @@ using Application.Features.Payments.Commands.BinCheck;
 using Application.Features.Payments.Commands;
 using Iyzipay.Model.V2.Transaction;
 using Application.Features.Payments.Commands.ThreeDSPaymentInitialize;
+using WebAPI.Controllers.Dtos;
 
 namespace WebAPI.Controllers;
 [Route("api/[controller]")]
@@ -57,18 +58,39 @@ public class PaymentController : BaseController
     [HttpPost("PayCallBack")]
     public async Task<IActionResult> PayCallBack([FromForm] IFormCollection callBackData)
     {
+        CallBackResponse response = new CallBackResponse();
+        
+        foreach(var item in callBackData.Keys)
+        {
+            var value = callBackData[item].FirstOrDefault();
 
-        return Ok(callBackData);
+            switch (item)
+            {
+                case "status":
+                    response.Status = value;
+                    break;
+                case "paymentId":
+                    response.PaymentId = value;
+                    break;
+                case "conversationId":
+                    response.ConversationId = value; 
+                    break;
+                case "mdStatus":
+                    response.MdStatus = value;
+                    break;
+                case "conversationData":
+                    response.ConversationData = value;
+                    break;
+                case "signature":
+                    response.Signature = value; 
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return Ok(response);
     }
 }
 
-
-
-public sealed record CallBackData (
-        string Status,
-        string PaymentId,
-        string ConversationData,
-        long ConversationId,
-        string MdStatus
-    );
 

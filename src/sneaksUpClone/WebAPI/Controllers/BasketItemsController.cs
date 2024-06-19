@@ -6,6 +6,7 @@ using Application.Features.BasketItems.Queries.GetList;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Application.Features.BasketItems.Queries.GetByUserId;
 
 namespace WebAPI.Controllers;
 
@@ -50,6 +51,14 @@ public class BasketItemsController : BaseController
     {
         GetListBasketItemQuery getListBasketItemQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListBasketItemListItemDto> response = await Mediator.Send(getListBasketItemQuery);
+        return Ok(response);
+    }
+
+    [HttpGet("GetByUserIdBasketItem")]
+    public async Task<IActionResult> GetByUserIdBasketItem()
+    {
+        GetByUserIdBasketItemQuery query = new() { UserId = getUserIdFromRequest() };
+        GetListResponse<GetByUserIdBasketItemsItemDto> response = await Mediator.Send(query);
         return Ok(response);
     }
 }

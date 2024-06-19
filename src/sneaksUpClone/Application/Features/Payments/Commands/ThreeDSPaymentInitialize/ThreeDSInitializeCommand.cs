@@ -1,4 +1,5 @@
-﻿using Application.Features.Baskets.Rules;
+﻿using Application.Features.Addresses.Rules;
+using Application.Features.Baskets.Rules;
 using Application.Features.Payments.Rules;
 using Application.Features.Users.Rules;
 using Application.Services.Addresses;
@@ -11,6 +12,7 @@ using Iyzipay.Model;
 using Iyzipay.Request;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Transaction;
 using NArchitecture.Core.Persistence.Paging;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.Payments.Commands.ThreeDSPaymentInitialize;
-public class ThreeDSInitializeCommand: IRequest<ThreeDSInitializeResponse>
+public class ThreeDSInitializeCommand: IRequest<ThreeDSInitializeResponse>, ITransactionalRequest
 {
     public Guid UserId { get; set; }
     public string UserIp { get; set; }
@@ -37,11 +39,12 @@ public class ThreeDSInitializeCommand: IRequest<ThreeDSInitializeResponse>
         private readonly UserBusinessRules _userBusinessRules;
         private readonly BasketBusinessRules _basketBusinessRules;
         private readonly PaymentBusinessRules _paymentBusinessRules;
+        private readonly AddressBusinessRules _addressBusinessRules;
 
         public ThreeDSInitializeCommandHandler(IPaymentService paymentService, IUserService userService,
             IBasketService basketService, IAddressService addressService, IBasketItemRepository basketItemRepository,
             UserBusinessRules userBusinessRules, BasketBusinessRules basketBusinessRules,
-            PaymentBusinessRules paymentBusinessRules)
+            PaymentBusinessRules paymentBusinessRules, AddressBusinessRules addressBusinessRules)
         {
             _paymentService = paymentService;
             _userService = userService;
@@ -51,6 +54,7 @@ public class ThreeDSInitializeCommand: IRequest<ThreeDSInitializeResponse>
             _userBusinessRules = userBusinessRules;
             _basketBusinessRules = basketBusinessRules;
             _paymentBusinessRules = paymentBusinessRules;
+            _addressBusinessRules = addressBusinessRules;
         }
 
         public async Task<ThreeDSInitializeResponse> Handle(ThreeDSInitializeCommand request, CancellationToken cancellationToken)
@@ -59,6 +63,8 @@ public class ThreeDSInitializeCommand: IRequest<ThreeDSInitializeResponse>
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
 
             Domain.Entities.Address? address = await _addressService.GetAsync(a => a.UserId == user.Id);
+            await _addressBusinessRules.AddressShouldExistWhenSelected(address);
+
             Basket? basket = await _basketService.GetAsync(b => b.UserId == user.Id);
             await _basketBusinessRules.TotalPriceMustBeGreaterThenZero(basket);
 
