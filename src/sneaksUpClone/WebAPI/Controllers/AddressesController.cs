@@ -14,9 +14,10 @@ namespace WebAPI.Controllers;
 public class AddressesController : BaseController
 {
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] CreateAddressCommand createAddressCommand)
+    public async Task<IActionResult> Add([FromBody] CreateAddressDto createAddressDto)
     {
-        CreatedAddressResponse response = await Mediator.Send(createAddressCommand);
+        CreateAddressCommand command = new() { UserId = getUserIdFromRequest(), CreateAddressDto = createAddressDto };
+        CreatedAddressResponse response = await Mediator.Send(command);
 
         return Created(uri: "", response);
     }

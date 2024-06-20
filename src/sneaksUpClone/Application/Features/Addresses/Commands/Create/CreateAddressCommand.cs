@@ -9,11 +9,9 @@ namespace Application.Features.Addresses.Commands.Create;
 public class CreateAddressCommand : IRequest<CreatedAddressResponse>
 {
     public Guid UserId { get; set; }
-    public string AddressName { get; set; }
-    public string City { get; set; }
-    public string Country { get; set; }
-    public string ZipCode { get; set; }
-    public string ContactName { get; set; }
+    
+    public CreateAddressDto CreateAddressDto { get; set; }
+    
 
     public class CreateAddressCommandHandler : IRequestHandler<CreateAddressCommand, CreatedAddressResponse>
     {
@@ -31,7 +29,16 @@ public class CreateAddressCommand : IRequest<CreatedAddressResponse>
 
         public async Task<CreatedAddressResponse> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
         {
-            Address address = _mapper.Map<Address>(request);
+            Address address = new()
+            {
+                Id = Guid.NewGuid(),
+                UserId = request.UserId,
+                AddressName = request.CreateAddressDto.AddressName,
+                City = request.CreateAddressDto.City,
+                ContactName = request.CreateAddressDto.ContactName,
+                Country = request.CreateAddressDto.Country,    
+                ZipCode = request.CreateAddressDto.ZipCode,
+            };
 
             await _addressRepository.AddAsync(address);
 

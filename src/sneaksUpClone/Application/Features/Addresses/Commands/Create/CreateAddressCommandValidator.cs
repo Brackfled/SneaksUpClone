@@ -7,10 +7,10 @@ public class CreateAddressCommandValidator : AbstractValidator<CreateAddressComm
     public CreateAddressCommandValidator()
     {
         RuleFor(c => c.UserId).NotEmpty();
-        RuleFor(c => c.AddressName).NotEmpty();
-        RuleFor(c => c.City).NotEmpty();
-        RuleFor(c => c.Country).NotEmpty();
-        RuleFor(c => c.ZipCode).NotEmpty();
-        RuleFor(c => c.ContactName).NotEmpty();
+        RuleFor(c => c.CreateAddressDto.AddressName).NotEmpty();
+        RuleFor(c => c.CreateAddressDto.City).NotEmpty();
+        RuleFor(c => c.CreateAddressDto.Country).NotEmpty();
+        RuleFor(c => c.CreateAddressDto.ZipCode).NotEmpty();
+        RuleFor(c => c.CreateAddressDto.ContactName).NotEmpty();
     }
 }
