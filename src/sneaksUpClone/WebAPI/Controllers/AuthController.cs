@@ -74,7 +74,7 @@ public class AuthController : BaseController
             new()
             {
                 UserId = getUserIdFromRequest(),
-                VerifyEmailUrlPrefix = $"{_configuration.ApiDomain}/Auth/VerifyEmailAuthenticator"
+                VerifyEmailUrlPrefix = $"http://localhost:60805/api/Auth/VerifyEmailAuthenticator"
             };
         await Mediator.Send(enableEmailAuthenticatorCommand);
 

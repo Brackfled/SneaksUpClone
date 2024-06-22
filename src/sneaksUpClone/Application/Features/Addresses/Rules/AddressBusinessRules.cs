@@ -27,7 +27,7 @@ public class AddressBusinessRules : BaseBusinessRules
     public async Task AddressShouldExistWhenSelected(Address? address)
     {
         if (address == null)
-            await throwBusinessException(AddressesBusinessMessages.AddressNotExists);
+            throw new BusinessException("Addres Bulunamadý!");
     }
 
     public async Task AddressIdShouldExistWhenSelected(Guid id, CancellationToken cancellationToken)

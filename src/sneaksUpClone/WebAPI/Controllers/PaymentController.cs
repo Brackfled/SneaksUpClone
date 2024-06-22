@@ -89,7 +89,12 @@ public class PaymentController : BaseController
             }
         }
 
-        return Ok(response);
+        if(response.Status == "success")
+        {
+            return Redirect("https://localhost:4200/");
+        }
+
+        return Redirect("https://localhost:4200/agreement");
     }
 }
 

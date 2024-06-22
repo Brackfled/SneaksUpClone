@@ -4,6 +4,7 @@ using Iyzipay.Request;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ public class InstallmentInfoCommand : IRequest<InstallmentInfo>
             {
                 Locale = "tr",
                 ConversationId = Guid.NewGuid().ToString(),
-                Price = request.Price.ToString(),
+                Price = request.Price.ToString("F2",CultureInfo.InvariantCulture),
                 BinNumber = request.BinNo
             };
 
